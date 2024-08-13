@@ -1,0 +1,38 @@
+{% extends "base.html" %} {% block content %}
+
+<h1>Games</h1>
+<hr />
+<p>Joguinhos</p>
+<hr />
+<h3>Jogo em destaque:</h3>
+<ul>
+  <li>Titulo: {{game["Titulo"]}}</li>
+  <li>Ano: {{game["Ano"]}}</li>
+  <li>Categoria: {{game["Categoria"]}}</li>
+</ul>
+<p>Curiosidade: O {{game["Titulo"]}} tem {{anoAtual - game["Ano"]}} anos</p>
+
+<hr />
+<br />
+{%for k, v in game.items(): %}
+<details>
+  <summary>{{k}}</summary>
+  <p>{{v}}</p>
+</details>
+{% endfor %}
+<br />
+
+<hr />
+<h3>Jogadores atuais: {{lista}}</h3>
+<form action="{{url_for('games')}}" method="post">
+  <label for="">Jogador</label>
+  <input type="text" name="jogador" id="jogador" />
+  <input type="submit" value="Entrar" />
+</form>
+
+<ol>
+  {% for i in lista: %}
+  <li>{{i}}</li>
+  {% endfor %}
+</ol>
+{% endblock content %}

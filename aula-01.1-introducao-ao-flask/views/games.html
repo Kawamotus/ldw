@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Games</title>
+  </head>
+  <body>
+    <h1>Games</h1>
+    <hr />
+    <p>Joguinhos</p>
+    <hr />
+    <h3>Jogo em destaque:</h3>
+    <ul>
+      <li>Titulo: {{game["Titulo"]}}</li>
+      <li>Ano: {{game["Ano"]}}</li>
+      <li>Categoria: {{game["Categoria"]}}</li>
+    </ul>
+    <p>Curiosidade: O {{game["Titulo"]}} tem {{anoAtual - game["Ano"]}} anos</p>
+
+    <hr />
+    <br />
+    {%for k, v in game.items(): %}
+    <details>
+      <summary>{{k}}</summary>
+      <p>{{v}}</p>
+    </details>
+    {% endfor %}
+    <br />
+
+    <hr />
+    <h3>Jogadores atuais: {{lista}}</h3>
+    <ol>
+      {% for i in lista: %}
+      <li>{{i}}</li>
+      {% endfor %}
+    </ol>
+  </body>
+</html>
