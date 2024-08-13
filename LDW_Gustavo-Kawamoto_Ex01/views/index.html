@@ -1,0 +1,17 @@
+{% extends "base.html" %} {% block content %}
+<br />
+<h1 style="text-align: center">Tickets recentes</h1>
+<br />
+
+{% for item in itensHome: %}
+<div class="card">
+  <div class="card-header">{{item.Titulo}}</div>
+  <div class="card-body">
+    <p>Autor: {{item.Autor}}</p>
+    <p>Data: {{item.Data}}</p>
+    <p>Problema: {{item.Problema}}</p>
+    <button class="btn btn-danger">Ver mais</button>
+  </div>
+</div>
+<br />
+{% endfor %} {% endblock content %}
