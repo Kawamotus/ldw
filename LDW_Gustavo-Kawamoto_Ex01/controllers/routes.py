@@ -3,13 +3,28 @@ from datetime import date #usar pra inserir a data atual
 
 def init_app(app):
     
-    itensHome = [{"Titulo": "Ticket #1", "Autor": "Luan", "Data": date.today(), "Problema": "Defeito no computador"}, {"Titulo": "Ticket #2", "Autor": "Vinicius", "Data": date.today(), "Problema": "Defeito na rede"}, {"Titulo": "Ticket #3", "Autor": "Gustavo", "Data": date.today(), "Problema": "Celular não conecta"}, {"Titulo": "Ticket #4", "Autor": "Alexandre", "Data": date.today(), "Problema": "Todos"}]
+    dt = f"{date.today().day}/{date.today().month}/{date.today().year}"
+    itensHome = [{"Titulo": 1, "Autor": "Luan", "Data": dt, "Problema": "Defeito no computador"}, {"Titulo": 2, "Autor": "Vinicius", "Data": dt, "Problema": "Defeito na rede"}, {"Titulo": 3, "Autor": "Gustavo", "Data": dt, "Problema": "Celular não conecta"}, {"Titulo": 4, "Autor": "Alexandre", "Data": dt, "Problema": "Todos"}]
+    solu = []
     
-    @app.route("/")
-    def home():
-        return render_template("index.html", itensHome=itensHome)
+    @app.route("/", methods=["GET", "POST"])
+    def home(): 
+        
+        if request.method == "POST":
+            if request.form.get("autor") and request.form.get("descricao"):
+                itensHome.append({"Titulo": len(itensHome) + 1, "Autor": request.form.get("autor"), "Problema": request.form.get("descricao"), "Data": dt})
+        
+        return render_template("index.html", itensHome=itensHome, dt=dt)
     
-    @app.route("/cadastro")
-    def cadastro():
-        dt = date.today()
-        return render_template("cadastro.html", dt=dt)
+    @app.route("/solucoes", methods=["GET", "POST"])
+    def solucoes():
+        tSolu = len(solu)
+        if request.method == "POST":
+            if request.form.get("solucao"):
+                solu.append(request.form.get("solucao"))
+        
+        return render_template("solucoes.html", dt=dt, solu=solu, tSolu=tSolu)
+    
+    @app.route("/resolvidos")
+    def novos():
+        return render_template("resolvidos.html", itensHome=itensHome)
