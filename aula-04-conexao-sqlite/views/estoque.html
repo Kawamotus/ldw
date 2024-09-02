@@ -1,6 +1,70 @@
 {% extends 'base.html' %} {% block content %}
 <div class="container text-center">
   <h2>Controle de estoque</h2>
+  <details>
+    <summary>Cadastrar novo Jogo</summary>
+    <br />
+    <div class="col-md-4 m-auto">
+      <form action="{{url_for('estoque')}}" method="post">
+        <input
+          type="text"
+          name="titulo"
+          id="titulo"
+          class="form-control"
+          placeholder="Titulo..."
+          required
+        />
+        <br />
+        <input
+          type="number"
+          name="ano"
+          id="ano"
+          class="form-control"
+          placeholder="Ano..."
+          required
+        />
+        <br />
+        <input
+          type="text"
+          name="categoria"
+          id="categoria"
+          class="form-control"
+          placeholder="Categoria..."
+          required
+        />
+        <br />
+        <input
+          type="text"
+          name="plataforma"
+          id="plataforma"
+          class="form-control"
+          placeholder="Plataforma..."
+          required
+        />
+        <br />
+        <input
+          type="number"
+          name="preco"
+          id="preco"
+          class="form-control"
+          placeholder="Preço..."
+          required
+        />
+        <br />
+        <input
+          type="number"
+          name="quantidade"
+          id="quantidade"
+          class="form-control"
+          placeholder="Quantidade..."
+          required
+        />
+        <br />
+        <input type="submit" value="Cadastrar" class="btn btn-success" />
+        <input type="reset" value="Limpar" class="btn btn-danger" />
+      </form>
+    </div>
+  </details>
   <br />
   <table class="table table-bordered table-hover">
     <thead class="table-dark">
@@ -11,6 +75,8 @@
         <th>Plataforma:</th>
         <th>Preço:</th>
         <th>Quantidade:</th>
+        <th>Editar</th>
+        <th>Excluir</th>
       </tr>
     </thead>
     <tbody>
@@ -22,6 +88,19 @@
         <td>{{g.plataforma}}</td>
         <td>{{g.preco}}</td>
         <td>{{g.quantidade}}</td>
+        <td>
+          <a href="{{url_for('edit', id=g.id)}}" class="btn btn-warning"
+            >Editar</a
+          >
+        </td>
+        <td>
+          <a
+            href="{{url_for('estoque', id=g.id)}}"
+            class="btn btn-danger"
+            onclick="return confirm('Deseja mesmo excluir o jogo {{g.titulo}}?')"
+            >Excluir</a
+          >
+        </td>
       </tr>
 
       {% endfor %}

@@ -73,7 +73,40 @@ def init_app(app):
     
     #CRUD - Listagem
     @app.route("/estoque", methods=["GET", "POST"])
-    def estoque():
-        #armazena em "gamesestoque" todos os valores, como um select e encaminha para a página
-        gamesEstoque = Game.query.all()
-        return render_template('estoque.html', gamesEstoque=gamesEstoque)
+    @app.route("/estoque/delete/<int:id>", methods=["GET", "POST"])
+    def estoque(id=None):
+        #deletando um jogo
+        if id:
+            game = Game.query.get(id)
+            db.session.delete(game)
+            db.session.commit()
+            return redirect(url_for('estoque'))
+        #cadastrar um novo jogo
+        if request.method == 'POST':
+            newGame = Game(request.form['titulo'], request.form['ano'], request.form['categoria'], request.form['plataforma'], request.form['preco'], request.form['quantidade'])
+            #Metodo SQLAlchemy para cadastrar no banco
+            db.session.add(newGame)
+            #Precisa commitar após inserir as info
+            db.session.commit()
+            return redirect(url_for('estoque'))
+        else:
+            #armazena em "gamesestoque" todos os valores, como um select e encaminha para a página
+            gamesEstoque = Game.query.all()
+            return render_template('estoque.html', gamesEstoque=gamesEstoque)
+        
+    @app.route('/edit/<int:id>', methods=["GET", "POST"])
+    def edit(id):
+        g = Game.query.get(id)
+        #edita o jogo com as infos do form
+        if request.method == "POST":
+            g.titulo = request.form['titulo']
+            g.ano = request.form['ano']
+            g.categoria = request.form['categoria']
+            g.plataforma = request.form['plataforma']
+            g.preco = request.form['preco']
+            g.quantidade = request.form['quantidade']
+            db.session.commit()
+            return redirect(url_for('estoque'))
+        return render_template('editgame.html', g=g)    
+        
+    
