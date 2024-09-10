@@ -22,7 +22,7 @@ def init_app(app):
         routes = ['login', 'caduser', 'home']
         
         #se a rota não requerir auth, ele permite o acesso
-        if request.endpoint in routes and request.path.startswith('static'):
+        if request.endpoint in routes:
             return
         
         #se o user não estiver autenticado redireciona para o login
