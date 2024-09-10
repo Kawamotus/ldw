@@ -15,6 +15,20 @@ gamelist = [{'Título': 'CS-GO',
 
 
 def init_app(app):
+    #função de middleware para verificar a autenticação do user
+    @app.before_request
+    def checkout():
+        #rotas que não precisam de login
+        routes = ['login', 'caduser', 'home']
+        
+        #se a rota não requerir auth, ele permite o acesso
+        if request.endpoint in routes and request.path.startswith('static'):
+            return
+        
+        #se o user não estiver autenticado redireciona para o login
+        if 'userId' not in session:
+            return redirect(url_for('login'))
+    
     @app.route("/")  # Decorator para o método app.route
     def home():  # View function (função de visão)
         dataAtual = f'{date.today().day}/{date.today().month}/{date.today().year}.'
@@ -162,3 +176,8 @@ def init_app(app):
                 flash("REgistro realizado com sucesso, faça o login!", 'success')
                 return redirect(url_for('login'))
         return render_template('caduser.html')
+    
+    @app.route('/logout', methods=["GET", "POST"])
+    def logout():
+        session.clear()
+        return redirect(url_for('home'))
