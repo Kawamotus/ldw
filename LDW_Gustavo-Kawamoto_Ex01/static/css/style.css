@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 html {
   height: 100%;
   min-height: 100%;
@@ -39,3 +40,42 @@ footer {
   width: 100%;
   margin-bottom: 0;
 }
+=======
+html {
+  height: 100%;
+  min-height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+footer {
+  margin-top: auto;
+}
+
+.navbar-custom,
+.footer-custom {
+  background-color: #ff0000; /* Azul padrão do Bootstrap */
+}
+.navbar-nav,
+.footer-nav {
+  margin: 0 auto; /* Centraliza os itens do menu */
+}
+.navbar-nav .nav-link,
+.footer-nav .nav-link {
+  color: white; /* Cor do texto branco para contraste */
+}
+.navbar-brand,
+.footer-brand {
+  color: white; /* Cor do texto branco para contraste */
+}
+.footer-custom {
+  padding: 20px 0;
+  bottom: 0;
+  width: 100%;
+  margin-bottom: 0;
+}
+>>>>>>> 224423c81ef74de5909895bd27128649fa1494e5

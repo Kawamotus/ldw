@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {% extends "base.html" %} {% block content %}
 
 <br />
@@ -15,3 +16,22 @@
 </div>
 <br />
 {% endfor %} {% endblock content %}
+=======
+{% extends "base.html" %} {% block content %}
+
+<br />
+<h1 style="text-align: center">Tickets resolvidos</h1>
+<br />
+
+{% for v in itensHome: %}
+<div class="card">
+  <div class="card-header">Ticket #{{v.Titulo}}</div>
+  <div class="card-body">
+    <p>Autor: {{v.Autor}}</p>
+    <p>Data: {{v.Data}}</p>
+    <p>Problema: {{v.Problema}}</p>
+  </div>
+</div>
+<br />
+{% endfor %} {% endblock content %}
+>>>>>>> 224423c81ef74de5909895bd27128649fa1494e5

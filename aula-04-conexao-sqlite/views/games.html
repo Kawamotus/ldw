@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}    
+    
+    <h1>Página de joguinhos</h1>
+    <hr>
+    <h3> Jogo em destaque: </h3>
+    {% for chave, valor in game.items() %}
+    <details>
+        <summary>{{chave}}</summary>
+            <p>{{valor}}</p>
+    </details>
+    
+    {% endfor %}
+
+    <p>Curiosidade: O {{game['titulo']}} tem {{anoAtual-game['ano']}} anos</p>
+    <h1>Jogadores atuais: </h1>
+
+    <ol>
+        {% for jogador in jogadores: %}
+        <li>{{jogador}}</li>
+        {% endfor %}
+    </ol>
+
+    <form action="{{url_for('games')}}" method="POST">
+        <label>Jogador:</label>
+        <input type="text" name="jogador">
+        <input type="submit" name="Entrar">
+    </form>
+
+{% endblock content %}

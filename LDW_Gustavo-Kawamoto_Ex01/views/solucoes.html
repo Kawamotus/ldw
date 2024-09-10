@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {% extends "base.html" %} {% block content %}
 <br />
 <h1 style="text-align: center">Possíveis soluções</h1>
@@ -34,3 +35,41 @@
 </script>
 
 {% endblock content %}
+=======
+{% extends "base.html" %} {% block content %}
+<br />
+<h1 style="text-align: center">Possíveis soluções</h1>
+<br />
+<div class="card">
+  <div class="card-header"><h3>Cadastrar nova solução:</h3></div>
+  <div class="card-body">
+    <form
+      action="{{url_for('solucoes')}}"
+      method="post"
+      class="form form-group"
+    >
+      <label for="solucao" style="margin-bottom: 5px">Nova solução:</label
+      ><br />
+      <textarea name="solucao" id="solucao" class="form-control"></textarea
+      ><br />
+      <input type="submit" value="Enviar" class="btn btn-danger" />
+    </form>
+  </div>
+</div>
+<br />
+<br />
+{% for v in solu: %}
+<div class="card">
+  <div class="card-header">Solução</div>
+  <div class="card-body">
+    <p>{{v}}</p>
+  </div>
+</div>
+<br />
+{% endfor %}
+<script>
+  document.title = "Soluções | Ticketzinhos";
+</script>
+
+{% endblock content %}
+>>>>>>> 224423c81ef74de5909895bd27128649fa1494e5
