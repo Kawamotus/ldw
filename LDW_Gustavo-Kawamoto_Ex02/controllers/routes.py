@@ -1,11 +1,73 @@
 from flask import render_template, request, redirect, url_for, flash, session
 from datetime import date #usar pra inserir a data atual
+from markupsafe import Markup
+from werkzeug.security import generate_password_hash, check_password_hash
 
 from models.database import db, User, Ticket
 
 def init_app(app):
     
     dt = f"{date.today().day}/{date.today().month}/{date.today().year}"
+    
+    @app.before_request
+    def checkout():
+        routes = ['login', 'cadastro']
+        if request.endpoint in routes:
+            return
+        
+        if 'userID' not in session:
+            return redirect(url_for('login'))
+    
+    @app.route('/login', methods=['GET', 'POST'])
+    def login():
+        if request.method == 'POST':
+            userLogin = request.form['userLogin']
+            userPassword = request.form['userPassword']
+            print(userLogin, userPassword)
+            user = User.query.filter_by(userLogin=userLogin).first()
+            
+            if user and check_password_hash(user.userPassword, userPassword):
+                session['userID'] = user.userID
+                session['userName'] = user.userName
+                session['userLogin'] = user.userLogin
+                session['userEmail'] = user.userEmail
+                
+                flash(f"Login bem sucedido, bem vindo(a) {session['userName']}", 'success')
+                
+                return redirect(url_for('home'))
+            
+            
+        return render_template('login.html')
+    
+    @app.route('/logout')
+    def logout():
+        session.clear()
+        return redirect(url_for('login'))
+    
+    @app.route('/cadastro', methods=['GET', 'POST'])
+    def cadastro():
+        if request.method == 'POST':
+            userName = request.form['userName']
+            userLogin = request.form['userLogin']
+            userEmail = request.form['userEmail']
+            userPassword = request.form['userPassword']
+            
+            userLoginVerify = User.query.filter_by(userLogin=userLogin).first()
+            userEmailVerify = User.query.filter_by(userEmail=userEmail).first()
+            
+            if userLoginVerify or userEmailVerify:
+                msg = Markup("Usuário já cadastrado, faça o <a href='/login'>Login</a>")
+                flash(msg, "danger")
+                return redirect(url_for('cadastro'))
+            else:
+                hashPassword = generate_password_hash(userPassword, method='scrypt')
+                newUser = User(userName=userName, userLogin=userLogin, userEmail=userEmail, userPassword=hashPassword)
+                db.session.add(newUser)
+                db.session.commit()
+                flash('Cadastrado com sucesso, faça o login!', "success")
+                return redirect(url_for('login'))
+                
+        return render_template('cadastro.html')
     
     @app.route("/", methods=["GET", "POST"])
     @app.route("/<int:ticketID>", methods=["GET", "POST"])
@@ -22,8 +84,6 @@ def init_app(app):
             ticketStatus = request.form['ticketStatus']
             ticketProblem = request.form['ticketProblem']
             ticketDate = dt
-            
-            print(request.form['ticketAuthor'])
             
             newTicket = Ticket(ticketAuthor=ticketAuthor, ticketDate=ticketDate, ticketProblem=ticketProblem, ticketStatus=ticketStatus)
             
