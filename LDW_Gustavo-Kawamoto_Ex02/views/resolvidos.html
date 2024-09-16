@@ -1,16 +1,16 @@
 {% extends "base.html" %} {% block content %}
 
 <br />
-<h1 style="text-align: center">Tickets resolvidos</h1>
+<h1 style="text-align: center">Ultimos tickets resolvidos</h1>
 <br />
 
 {% for v in itensHome: %}
 <div class="card">
-  <div class="card-header">Ticket #{{v.Titulo}}</div>
+  <div class="card-header">Ticket #{{v.ticketID}}</div>
   <div class="card-body">
-    <p>Autor: {{v.Autor}}</p>
-    <p>Data: {{v.Data}}</p>
-    <p>Problema: {{v.Problema}}</p>
+    <p>Autor: {{v.ticketAuthor}}</p>
+    <p>Data: {{v.ticketDate}}</p>
+    <p>Problema: {{v.ticketProblem}}</p>
   </div>
 </div>
 <br />

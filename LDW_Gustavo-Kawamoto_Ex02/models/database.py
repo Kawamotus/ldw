@@ -24,8 +24,7 @@ class Ticket(db.Model):
     ticketStatus = db.Column(db.String(1))
     
     def __init__(self, ticketAuthor, ticketDate, ticketProblem, ticketStatus):
-        self.autor = ticketAuthor
-        self.data = ticketDate
-        self.problema = ticketProblem
+        self.ticketAuthor = ticketAuthor
+        self.ticketDate = ticketDate
+        self.ticketProblem = ticketProblem
         self.ticketStatus = ticketStatus
-        

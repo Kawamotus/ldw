@@ -8,7 +8,14 @@ def init_app(app):
     dt = f"{date.today().day}/{date.today().month}/{date.today().year}"
     
     @app.route("/", methods=["GET", "POST"])
-    def home(id=None): 
+    @app.route("/<int:ticketID>", methods=["GET", "POST"])
+    def home(ticketID=None): 
+        if ticketID:
+            ticket = Ticket.query.get(ticketID)
+            print(ticket)
+            db.session.delete(ticket)
+            db.session.commit()
+            return redirect(url_for('home'))
         
         if request.method == "POST":
             ticketAuthor = request.form['ticketAuthor']
@@ -16,7 +23,9 @@ def init_app(app):
             ticketProblem = request.form['ticketProblem']
             ticketDate = dt
             
-            newTicket = Ticket(ticketAuthor=ticketAuthor, ticketStatus=ticketStatus, ticketProblem=ticketProblem, ticketDate=ticketDate)
+            print(request.form['ticketAuthor'])
+            
+            newTicket = Ticket(ticketAuthor=ticketAuthor, ticketDate=ticketDate, ticketProblem=ticketProblem, ticketStatus=ticketStatus)
             
             db.session.add(newTicket)
             db.session.commit()
@@ -31,5 +40,18 @@ def init_app(app):
     
     @app.route("/resolvidos")
     def novos():
-        itensHome = "a"
+        itensHome = Ticket.query.filter(Ticket.ticketStatus != '1').all()
         return render_template("resolvidos.html", itensHome=itensHome)
+    
+    @app.route("/editar/<int:ticketID>", methods=['GET', 'POST'])
+    def editar(ticketID):
+        ticket = Ticket.query.get(ticketID)
+        
+        if request.method == "POST":
+            ticket.ticketAuthor = request.form['ticketAuthor']
+            ticket.ticketStatus = request.form['ticketStatus']
+            ticket.ticketProblem = request.form['ticketProblem']
+            db.session.commit()
+            return redirect(url_for('home'))
+        
+        return render_template('editar.html', ticket=ticket)

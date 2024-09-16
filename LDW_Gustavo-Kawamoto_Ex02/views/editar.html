@@ -1,0 +1,35 @@
+{% extends "base.html" %} {% block content %}
+<br />
+<div class="container">
+  <div class="card">
+    <div class="card-header">
+      <h1>Editando o ticket</h1>
+    </div>
+    <div class="card-body">
+      <form
+        action="{{url_for('editar', ticketID=ticket.ticketID)}}"
+        method="POST">
+        <label for="autor" style="margin-bottom: 5px">Autor:</label><br />
+        <input
+          type="text"
+          class="form-control"
+          name="ticketAuthor"
+          id="ticketAuthor"
+          value="{{ticket.ticketAuthor}}" /><br />
+        <label for="" style="margin-bottom: 5px">Descrição do problema:</label>
+        <br />
+        <textarea name="ticketProblem" id="ticketProblem" class="form-control">
+{{ticket.ticketProblem}}</textarea
+        ><br />
+        <label for="">Status</label>
+        <select name="ticketStatus" id="" class="form-control">
+          <option value="1">Não resolvido</option>
+          <option value="2">Resolvido</option></select
+        ><br />
+        <input type="submit" value="Enviar" class="btn btn-danger" />
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
