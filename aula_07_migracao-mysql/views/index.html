@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!-- Percorrendo as Flash Messages -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% for category, message in messages %}
+<div class="alert alert-{{ category }}">
+    {{ message }}
+</div>
+{% endfor %}
+{% endwith %}
+
+<h1>Inciando com o Flask</h1>
+<hr>
+<p>Hoje é dia {{dataAtual}}</p>
+<h3>Bem-vindo!</h3>
+<a href="{{url_for('games')}}">Comece aqui!</a><br><br>
+{#{ Comentário no Jinja }#}
+<!-- Esse é um comentário {#{variavel}#} -->
+<img src="{{url_for('static', filename='/imgs/thumb.jpg')}}" width="1080px" alt="The Games">
+{% endblock content %}

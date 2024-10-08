@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h2>Controle de estoque</h2><br>
+    <details>
+        <summary>[ Cadastrar novo jogo ]</summary>
+            <div class="col-md-4">
+                <form action="{{url_for('estoque')}}" method="POST">
+                    <input type="text" name="titulo" placeholder="Título" class="form-control" required>
+                    <input type="number" name="ano" placeholder="Ano" min="1970" max="2099" class="form-control" required>
+                    <input type="text" name="categoria" placeholder="Categoria" class="form-control" required>
+                    <input type="text" name="plataforma" placeholder="Plataforma" class="form-control" required>
+                    <input type="number" name="preco" placeholder="Preço" min=0 step="0.01" class="form-control" required>
+                    <input type="number" name="quantidade" placeholder="Quantidade" class="form-control" required><br>
+                    <input type="submit" value="Cadastrar" class="btn btn-success">
+                    <input type="reset" value="Limpar" class="btn btn-danger">
+                </form>  
+            </div>
+    </details>
+    <hr>
+    <h5>Jogos em estoque:</h5><br>
+    <table class="table table-bordered table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th></th>
+                <th>Título:</th>
+                <th>Ano:</th>
+                <th>Categoria:</th>
+                <th>Plataforma:</th>
+                <th>Preço:</th>
+                <th>Quantidade:</th>
+                <th style="text-align: center;" colspan="2">Ação:</th>
+            </tr>
+        </thead>
+        <tbody>    
+        {% for g in gamesestoque %}
+            <tr>
+                <td style="text-align: center;"><img src="{{url_for('static', filename='imgs/game-icon.png')}}" width="35px" alt="Game"></td>
+                <td>{{g.titulo}}</td>                
+                <td>{{g.ano}}</td>
+                <td>{{g.categoria}}</td>
+                <td>{{g.plataforma}}</td>
+                <td>{{g.preco}}</td>
+                <td>{{g.quantidade}}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock content %}
