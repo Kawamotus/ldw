@@ -32,6 +32,7 @@ class GameDetails(Resource):
             return make_response(jsonify("Game não encontrado"), 400)
         gameschema = game_schema.GameSchema()
         return make_response(gameschema.jsonify(game), 200)
+    
     def put(self, id):
         game_bd = GameService.get_game_by_id(id)
         if game_bd is None:
